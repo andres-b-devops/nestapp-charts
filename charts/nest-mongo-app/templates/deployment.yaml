@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nestapp
+  labels:
+    app: nestapp
+    io.kompose.service: nestapp
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+spec:
+  replicas: {{ .Values.nestapp.replicaCount }}
+  selector:
+    matchLabels:
+      io.kompose.service: nestapp
+  template:
+    metadata:
+      labels:
+        io.kompose.service: nestapp
+    spec:
+      containers:
+        - name: nest-app
+          image: "{{ .Values.nestapp.image.repository }}:{{ .Values.nestapp.image.tag }}"
+          imagePullPolicy: {{ .Values.nestapp.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.nestapp.service.port }}
+          env:
+            - name: MONGO_DB_URI
+              value: "{{ .Values.nestapp.env.MONGO_DB_URI }}"
+            - name: MONGO_DB_NAME
+              value: "{{ .Values.nestapp.env.MONGO_DB_NAME }}"
+            - name: MONGO_DB_USER
+              value: "{{ .Values.nestapp.env.MONGO_DB_USER }}"
+            - name: MONGO_DB_PASS
+              value: "{{ .Values.nestapp.env.MONGO_DB_PASS }}"
+          command: ["npm", "start"]

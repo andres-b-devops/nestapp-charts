@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nestapp
+description: Parent chart para Nestapp con MongoDB como dependencia
+version: 0.1.0
+
+dependencies:
+  - name: mongodb
+    version: 0.1.0
+    repository: "file://charts/mongodb"

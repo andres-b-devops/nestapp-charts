@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nestapp
+  labels:
+    io.kompose.service: nestapp
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+spec:
+  ports:
+    - name: "3000"
+      port: {{ .Values.nestapp.service.port }}
+      targetPort: {{ .Values.nestapp.service.port }}
+  selector:
+    io.kompose.service: nestapp

@@ -1,0 +1,52 @@
+name: Release Helm Charts
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "charts/nest-mongo-app/**"
+      - ".github/workflows/release.yaml"
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v4
+
+    - name: Fetch gh-pages (historical charts)
+      run: |
+        git fetch origin gh-pages --depth=1 || echo "No gh-pages yet"
+        mkdir -p release
+        if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+          git worktree add _pages origin/gh-pages
+          cp _pages/*.tgz release/ 2>/dev/null || true
+          cp _pages/index.yaml release/ 2>/dev/null || true
+        fi
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: v3.15.1
+
+    - name: Build chart dependencies
+      run: helm dependency update charts/nest-mongo-app
+
+    - name: Package new chart
+      run: helm package charts/nest-mongo-app --destination release
+
+    - name: Regenerate/merge index.yaml
+      run: |
+        helm repo index release \
+          --url "https://andres-b-devops.github.io/nestapp-charts/" \
+          --merge release/index.yaml
+
+    - name: Publish to gh-pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: release

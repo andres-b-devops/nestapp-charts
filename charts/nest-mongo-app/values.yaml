@@ -1,0 +1,14 @@
+# Valores para el parent chart nestapp
+nestapp:
+  replicaCount: 1
+  image:
+    repository: andreseduit/nestapp
+    tag: v1.0.0
+    pullPolicy: IfNotPresent
+  env:
+    MONGO_DB_URI: mongodb://mongo:27017
+    MONGO_DB_NAME: testdb
+    MONGO_DB_USER: root
+    MONGO_DB_PASS: password123
+  service:
+    port: 3000
