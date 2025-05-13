@@ -2,7 +2,19 @@ apiVersion: v1
 entries:
   nestapp:
   - apiVersion: v2
-    created: "2025-05-13T20:34:49.27447045Z"
+    created: "2025-05-13T21:07:12.591119202Z"
+    dependencies:
+    - name: mongodb
+      repository: file://charts/mongodb
+      version: 0.1.0
+    description: Parent chart para Nestapp con MongoDB como dependencia (modificado)
+    digest: a0df7d4e200804e869e589b0f88ef78b512971b3857271991fb692773b712e78
+    name: nestapp
+    urls:
+    - https://andres-b-devops.github.io/nestapp-charts/nestapp-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    created: "2025-05-13T21:07:12.590711458Z"
     dependencies:
     - name: mongodb
       repository: file://charts/mongodb
@@ -13,4 +25,4 @@ entries:
     urls:
     - https://andres-b-devops.github.io/nestapp-charts/nestapp-0.1.0.tgz
     version: 0.1.0
-generated: "2025-05-13T20:34:49.273780477Z"
+generated: "2025-05-13T21:07:12.590098208Z"
