@@ -1,7 +1,7 @@
 apiVersion: v2
 name: nestapp
-description: Parent chart para Nestapp con MongoDB como dependencia
-version: 0.1.0
+description: Parent chart para Nestapp con MongoDB como dependencia (modificado)
+version: 0.1.1
 
 dependencies:
   - name: mongodb
